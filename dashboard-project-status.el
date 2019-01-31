@@ -43,13 +43,23 @@
 
 (defun dashboard-insert-project-status-heading ()
   "Insert a heading with project path and whether or not it is behind."
+  (dashboard-insert-heading "Project ")
+  (if (functionp 'magit-status)
+      (widget-create 'push-button
+                     :action `(lambda (&rest ignore) (magit-status ,git-repo))
+                     :mouse-face 'highlight
+                     :follow-link "\C-m"
+                     :button-prefix ""
+                     :button-suffix ""
+                     :format "%[%t%]"
+                     (abbreviate-file-name git-repo))
+    (dashboard-insert-heading git-repo))
   (dashboard-insert-heading
-   (concat "Project "
-           git-repo
-           (if (git-local-is-behind?)
-               " is behind the remote. (use \"git-pull\" to update)"
-             " is up-to-date.")
-           hard-newline)))
+   (concat
+    (if (git-local-is-behind?)
+        " is behind the remote. (use \"git-pull\" to update)"
+      " is up-to-date.")
+    hard-newline)))
 
 (defun dashboard-insert-project-status-body ()
   "Insert lists of untracked, unstaged, and staged files."
