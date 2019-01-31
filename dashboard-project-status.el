@@ -65,18 +65,14 @@
                            (concat (file-name-as-directory git-repo) cur))
                           ret))))))))
 
-(defun dashboard-insert-project-status- (project-dir update)
-  "Do the actual work for `dashboard-insert-project-status'."
-  (when update (git-run "remote" "update"))
-  (dashboard-insert-project-status-heading)
-  (dashboard-insert-project-status-body))
-
 (defun dashboard-insert-project-status (project-dir &optional update)
   "Return a function which will insert git status for PROJECT-DIR.
 If UPDATE is non-nil, update the remote first with 'git remote update'."
   `(lambda (list-size)
      (let ((git-repo ,project-dir))
-       (dashboard-insert-project-status- ,project-dir ,update))))
+       (when ,update (git-run "remote" "update"))
+       (dashboard-insert-project-status-heading)
+       (dashboard-insert-project-status-body))))
 
 (provide 'dashboard-project-status)
 ;;; dashboard-project-status.el ends here
