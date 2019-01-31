@@ -6,25 +6,23 @@ If magit is installed, a link to the project in magit will be provided as well.
 ** Installation / Usage
 
 *** use-package
-
 #+begin_src emacs-lisp
 (use-package dashboard
   :config
   (use-package dashboard-project-status
    :config
     (add-to-list 'dashboard-item-generators
-                 `(project-status . ,(dashboard-insert-project-status *your directory*)))
+                 `(project-status . ,(dashboard-project-status *your directory*)))
     (add-to-list 'dashboard-items '(project-status) t))
   (dashboard-setup-startup-hook))
 #+end_src
 
 *** Without use-package
-
 #+begin_src emacs-lisp
 ;; some time before calling `dashboard-setup-startup-hook':
 (reqiure 'dashboard-project-status)
 (add-to-list 'dashboard-item-generators
-  `(project-status . ,(dashboard-insert-project-status *your directory*)))
+  `(project-status . ,(dashboard-project-status *your directory*)))
 (add-to-list 'dashboard-items '(project-status) t)
 #+end_src
 

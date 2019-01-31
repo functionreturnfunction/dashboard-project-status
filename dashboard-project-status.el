@@ -5,7 +5,7 @@
 ;; Author:  Jason Duncan <jasond496@msn.com>
 ;; Version: 0.0.1
 ;; URL: https://github.com/functionreturnfurnction/dashboard-project-status
-;; Package-Requires: ((git "0.1.1") (dashboard "1.2.5"))
+;; Package-Requires: ((emacs "24") (git "0.1.1") (dashboard "1.2.5"))
 
 ;; This program is free software: you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -31,19 +31,19 @@
 (require 'git)
 (require 'dashboard)
 
-(defun git-local-is-behind? ()
+(defun dashboard-project-status-git-local-is-behind? ()
   "Return non-nil if current `git-repo' is behind its remote."
   (numberp
    (string-match-p
     (regexp-quote "Your branch is behind")
     (git-run "status" "-uno"))))
 
-(defun git-unstaged-files ()
+(defun dashboard-project-status-git-unstaged-files ()
   "Return list of unstaged files."
   (git--lines
    (git-run "diff" "--name-only")))
 
-(defun dashboard-insert-project-status-heading ()
+(defun dashboard-project-status-insert-heading ()
   "Insert a heading with project path and whether or not it is behind."
   (dashboard-insert-heading "Project ")
   (if (functionp 'magit-status)
@@ -58,15 +58,15 @@
     (dashboard-insert-heading git-repo))
   (dashboard-insert-heading
    (concat
-    (if (git-local-is-behind?)
+    (if (dashboard-project-status-git-local-is-behind?)
         " is behind the remote. (use \"git-pull\" to update)"
       " is up-to-date.")
     hard-newline)))
 
-(defun dashboard-insert-project-status-body ()
+(defun dashboard-project-status-insert-body ()
   "Insert lists of untracked, unstaged, and staged files."
   (dolist (section `(("Untracked Files" . ,(git-untracked-files))
-                     ("Unstaged Files"  . ,(git-unstaged-files))
+                     ("Unstaged Files"  . ,(dashboard-project-status-git-unstaged-files))
                      ("Staged Files"    . ,(git-staged-files))))
     (dashboard-insert-recentf-list
      (car section)
@@ -77,14 +77,14 @@
                            (concat (file-name-as-directory git-repo) cur))
                           ret))))))))
 
-(defun dashboard-insert-project-status (project-dir &optional update)
+(defun dashboard-project-status (project-dir &optional update)
   "Return a function which will insert git status for PROJECT-DIR.
 If UPDATE is non-nil, update the remote first with 'git remote update'."
   `(lambda (list-size)
      (let ((git-repo ,project-dir))
        (when ,update (git-run "remote" "update"))
-       (dashboard-insert-project-status-heading)
-       (dashboard-insert-project-status-body))))
+       (dashboard-project-status-insert-heading)
+       (dashboard-project-status-insert-body))))
 
 (provide 'dashboard-project-status)
 ;;; dashboard-project-status.el ends here
