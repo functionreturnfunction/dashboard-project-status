@@ -29,6 +29,6 @@ If magit is installed, a link to the project in magit will be provided as well.
 #+end_src
 
 *** Auto-Refresh Project
-Setting the optional second argument UPDATE to `dashboard-insert-project-status'
-non-nil will cause the project to be refreshed automatically using
+Setting the optional second argument UPDATE for `dashboard-insert-project-status'
+anything non-nil will cause the project to be refreshed automatically using
 "git remote update".
