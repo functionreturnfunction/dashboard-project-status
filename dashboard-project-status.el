@@ -51,15 +51,6 @@
              " is up-to-date.")
            hard-newline)))
 
-(reverse
- (let ((git-repo user-emacs-directory)
-       ret)
-   (dolist (cur '("foo" "bar" "baz") ret)
-     (setq ret (cons (expand-file-name
-                      (concat (file-name-as-directory git-repo)
-                              cur))
-                     ret)))))
-
 (defun dashboard-insert-project-status-body ()
   "Insert lists of untracked, unstaged, and staged files."
   (dolist (section `(("Untracked Files" . ,(git-untracked-files))
