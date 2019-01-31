@@ -59,7 +59,7 @@
   (dashboard-insert-heading
    (concat
     (if (dashboard-project-status-git-local-is-behind?)
-        " is behind the remote. (use \"git-pull\" to update)"
+        " is behind the remote. (use \"git pull\" to update)"
       " is up-to-date.")
     hard-newline)))
 
