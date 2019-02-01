@@ -57,26 +57,25 @@
                      (abbreviate-file-name git-repo))
     (dashboard-insert-heading git-repo))
   (dashboard-insert-heading
-   (concat
-    (if (dashboard-project-status-git-local-is-behind?)
-        " is behind the remote. (use \"git pull\" to update)"
-      " is up-to-date.")
-    hard-newline)))
+   (if (dashboard-project-status-git-local-is-behind?)
+       " is behind the remote. (use \"git pull\" to update)"
+     " is up-to-date.")))
 
 (defun dashboard-project-status-insert-body ()
   "Insert lists of untracked, unstaged, and staged files."
   (dolist (section `(("Untracked Files:" . ,(git-untracked-files))
                      ("Unstaged Files:"  . ,(dashboard-project-status-git-unstaged-files))
                      ("Staged Files:"    . ,(git-staged-files))))
-    (dashboard-insert-recentf-list
-     (car section)
-     (reverse
-      (let (ret)
-        (dolist (cur (cdr section) ret)
-          (setq ret (cons (expand-file-name
-                           (concat (file-name-as-directory git-repo) cur))
-                          ret))))))
-    (insert hard-newline)))
+    (when (cdr section)
+      (insert hard-newline)
+      (dashboard-insert-recentf-list
+       (car section)
+       (reverse
+        (let (ret)
+          (dolist (cur (cdr section) ret)
+            (setq ret (cons (expand-file-name
+                             (concat (file-name-as-directory git-repo) cur))
+                            ret)))))))))
 
 (defun dashboard-project-status (project-dir &optional update)
   "Return a function which will insert git status for PROJECT-DIR.
