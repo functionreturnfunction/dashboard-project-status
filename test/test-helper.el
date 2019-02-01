@@ -4,4 +4,6 @@
   (undercover "*.el"
               (:exclude "*-tests.el")))
 
-(require 'format-table)
+(require 'el-mock)
+(require 'ert-expectations)
+(require 'dashboard-project-status)
