@@ -109,4 +109,16 @@
                               (insert (car (last args)))))
           (dashboard-project-status-insert-body)))
       (buffer-string)))
+  (desc "dashboard-project-status-git-local-is-behind? returns non nil when branch is behind")
+  (expect t
+    (mock (git-run "status" "-uno") => "Your branch is behind")
+    (dashboard-project-status-git-local-is-behind?))
+  (desc "dashboard-project-status-git-local-is-behind? returns nil when branch is not behind")
+  (expect nil
+    (mock (git-run "status" "-uno") => "")
+    (dashboard-project-status-git-local-is-behind?))
+  (desc "dashboard-project-status-git-unstaged-files returns a list of unstaged files")
+  (expect '("foo" "bar")
+    (mock (git-run "diff" "--name-only") => "foo\nbar")
+    (dashboard-project-status-git-unstaged-files))
   )
