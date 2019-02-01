@@ -3,6 +3,9 @@ Display a git project status in a dashboard widget.
 
 If magit is installed, a link to the project in magit will be provided as well.
 
+** Screenshot
+[[./screenshot.png]]
+
 ** Installation / Usage
 
 *** use-package

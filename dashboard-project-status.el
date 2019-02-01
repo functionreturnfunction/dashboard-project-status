@@ -65,9 +65,9 @@
 
 (defun dashboard-project-status-insert-body ()
   "Insert lists of untracked, unstaged, and staged files."
-  (dolist (section `(("Untracked Files" . ,(git-untracked-files))
-                     ("Unstaged Files"  . ,(dashboard-project-status-git-unstaged-files))
-                     ("Staged Files"    . ,(git-staged-files))))
+  (dolist (section `(("Untracked Files:" . ,(git-untracked-files))
+                     ("Unstaged Files:"  . ,(dashboard-project-status-git-unstaged-files))
+                     ("Staged Files:"    . ,(git-staged-files))))
     (dashboard-insert-recentf-list
      (car section)
      (reverse
@@ -75,7 +75,8 @@
         (dolist (cur (cdr section) ret)
           (setq ret (cons (expand-file-name
                            (concat (file-name-as-directory git-repo) cur))
-                          ret))))))))
+                          ret))))))
+    (insert hard-newline)))
 
 (defun dashboard-project-status (project-dir &optional update)
   "Return a function which will insert git status for PROJECT-DIR.
