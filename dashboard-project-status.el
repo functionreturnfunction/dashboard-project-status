@@ -61,21 +61,28 @@
        " is behind the remote. (use \"git pull\" to update)"
      " is up-to-date.")))
 
-(defun dashboard-project-status-insert-body ()
-  "Insert lists of untracked, unstaged, and staged files."
-  (dolist (section `(("Untracked Files:" . ,(git-untracked-files))
-                     ("Unstaged Files:"  . ,(dashboard-project-status-git-unstaged-files))
-                     ("Staged Files:"    . ,(git-staged-files))))
-    (when (cdr section)
-      (insert hard-newline)
-      (dashboard-insert-recentf-list
-       (car section)
-       (reverse
-        (let (ret)
-          (dolist (cur (cdr section) ret)
-            (setq ret (cons (expand-file-name
-                             (concat (file-name-as-directory git-repo) cur))
-                            ret)))))))))
+(defun dashboard-project-status-insert-body (limit)
+  "Insert lists of untracked, unstaged, and staged files LIMIT -ed as specified."
+  (let ((count 0))
+    (dolist (section `(("Untracked Files:" . ,(git-untracked-files))
+                       ("Unstaged Files:"  . ,(dashboard-project-status-git-unstaged-files))
+                       ("Staged Files:"    . ,(git-staged-files))))
+      (when (cdr section)
+        (let* ((items (cdr section))
+               (items (if (> (+ count (length items)) limit)
+                          (dashboard-subseq items 0 (- limit count))
+                        items)))
+          (when items
+            (setq count (+ count (length items)))
+            (insert hard-newline)
+            (dashboard-insert-recentf-list
+             (car section)
+             (reverse
+              (let (ret)
+                (dolist (cur items ret)
+                  (setq ret (cons (expand-file-name
+                                   (concat (file-name-as-directory git-repo) cur))
+                                  ret))))))))))))
 
 (defun dashboard-project-status (project-dir &optional update)
   "Return a function which will insert git status for PROJECT-DIR.
@@ -84,7 +91,7 @@ If UPDATE is non-nil, update the remote first with 'git remote update'."
      (let ((git-repo ,project-dir))
        (when ,update (git-run "remote" "update"))
        (dashboard-project-status-insert-heading)
-       (dashboard-project-status-insert-body))))
+       (dashboard-project-status-insert-body list-size))))
 
 (provide 'dashboard-project-status)
 ;;; dashboard-project-status.el ends here
