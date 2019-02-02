@@ -4,7 +4,7 @@
 
 ;; Author:  Jason Duncan <jasond496@msn.com>
 ;; Version: 0.0.1
-;; URL: https://github.com/functionreturnfurnction/dashboard-project-status
+;; URL: https://github.com/functionreturnfunction/dashboard-project-status
 ;; Package-Requires: ((emacs "24") (git "0.1.1") (dashboard "1.2.5"))
 
 ;; This program is free software: you can redistribute it and/or modify
