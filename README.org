@@ -1,5 +1,5 @@
-* dashboard-project-status [[https://travis-ci.org/functionreturnfunction/dashboard-project-status][https://travis-ci.org/functionreturnfunction/dashboard-project-status.png?branch=master]] [[https://coveralls.io/github/functionreturnfunction/dashboard-project-status][https://coveralls.io/repos/github/functionreturnfunction/dashboard-project-status/badge.svg?branch=master]]
-Display a git project status in a dashboard widget.
+* dashboard-project-status [[https://travis-ci.org/functionreturnfunction/dashboard-project-status][https://travis-ci.org/functionreturnfunction/dashboard-project-status.png?branch=master]] [[https://coveralls.io/github/functionreturnfunction/dashboard-project-status][https://coveralls.io/repos/github/functionreturnfunction/dashboard-project-status/badge.svg?branch=master]] [[https://melpa.org/#/dashboard-project-status][file:https://melpa.org/packages/dashboard-project-status-badge.svg]]
+Display a git project's status in a dashboard widget.
 
 If magit is installed, a link to the project in magit will be provided as well.
 
