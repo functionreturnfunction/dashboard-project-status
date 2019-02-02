@@ -16,7 +16,10 @@ If magit is installed, a link to the project in magit will be provided as well.
    :config
     (add-to-list 'dashboard-item-generators
                  `(project-status . ,(dashboard-project-status *your directory*)))
-    (add-to-list 'dashboard-items '(project-status) t))
+    (add-to-list 'dashboard-items '(project-status) t)
+    (setq dashboard-items '((project-status . 10)
+                            (recents        . 10)
+                            (agenda         . 10))))
   (dashboard-setup-startup-hook))
 #+end_src
 
@@ -27,6 +30,9 @@ If magit is installed, a link to the project in magit will be provided as well.
 (add-to-list 'dashboard-item-generators
   `(project-status . ,(dashboard-project-status *your directory*)))
 (add-to-list 'dashboard-items '(project-status) t)
+(setq dashboard-items '((project-status . 10)
+                        (recents        . 10)
+                        (agenda         . 10)))
 #+end_src
 
 *** Auto-Refresh Project
